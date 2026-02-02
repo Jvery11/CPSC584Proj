@@ -13,7 +13,7 @@ def main():
 
         crawler.do_action('forward',4,speed)
         sleep(0.05)
-        crawler.do_action('turn right',1,speed)
+        crawler.do_action('turn right',2,speed)
         sleep(0.05)
     
         sleep(1)
