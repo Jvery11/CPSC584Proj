@@ -10,7 +10,7 @@ def main():
     speed = 80
           
     while True:
-        crawler.do_action('turn left angle', 2, speed)
+        crawler.do_action('turn left angle', 3, speed)
         sleep(0.05)
     
         sleep(1)
