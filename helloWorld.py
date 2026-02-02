@@ -12,12 +12,8 @@ def main():
     while True:
         crawler.do_action('forward', 5, speed)
         sleep(0.05)
-        crawler.do_action('right', 5, speed)
-        sleep(0.05)
-        crawler.do_action('backward', 5, speed)
-        sleep(0.05)
-        crawler.do_action('left', 5, speed)
-
+        crawler.do_action('turn right angle', 3, speed)
+        
         sleep(1)
 
 if __name__ == "__main__":
