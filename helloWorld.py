@@ -12,7 +12,7 @@ def main():
     while True:
         crawler.do_action('forward', 5, speed)
         sleep(0.05)
-        crawler.do_action('turn left', 2.5, speed)
+        crawler.do_action('turn left', 3, speed)
         sleep(0.05)
     
         sleep(1)
