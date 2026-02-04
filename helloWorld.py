@@ -7,12 +7,12 @@ crawler = Picrawler()
 # sleep should be set to 0.05
 def main():  
     
-    speed = 100
+    speed = 90
           
     while True:
         crawler.do_action('forward', 10, speed)
         sleep(0.05)
-        crawler.do_action('turn right angle', 4, speed)
+        crawler.do_action('turn right angle', 3, speed)
         sleep(0.05)
         
         sleep(0.05)
