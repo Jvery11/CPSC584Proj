@@ -6,7 +6,7 @@
 import threading
 import time
 import connectCamera
-import controller
+# import controller
 
 # update as needed 
 SERVER_IP = "172.17.10.219"
