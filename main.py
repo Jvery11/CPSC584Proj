@@ -31,6 +31,7 @@ def main():
 
     # start all threads
     camera_thread.start()
+    time.sleep(7)
     controller_thread.start()
 
 
@@ -41,6 +42,9 @@ def main():
     
     except KeyboardInterrupt:
         print("Exiting Main Process")
+
+    except:
+        print("Done")
 
 
 
