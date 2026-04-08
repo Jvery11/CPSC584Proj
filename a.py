@@ -45,7 +45,7 @@ def main():
     startBTN = 315
     x, y, rx, ry = 0, 0, 0, 0
     current_direction = 'stop'
-    gamepad.grab()
+    # gamepad.grab()
 
     while True:
         event = gamepad.read_one()
