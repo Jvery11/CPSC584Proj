@@ -19,7 +19,7 @@ def main():
     # Note: args must be a tuple, so we use (SERVER_IP, PORT)
     camera_process = multiprocessing.Process(
         target=connectCamera.start_camera,
-        args=(SERVER_IP, PORT),
+        # args=(SERVER_IP, PORT),
         name="CameraProcess"
     )
 

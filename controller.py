@@ -3,11 +3,6 @@ from evdev import InputDevice, categorize, ecodes
 from picrawler import Picrawler
 
 
-gamepad = InputDevice('/dev/input/event3')
-crawler = Picrawler()
-
-
-# do i even need this?
 def normalize_direction(val):
     max_val = 32768.0
     normalized = val / max_val
@@ -19,94 +14,98 @@ def joystick_movements(x, y, rx, ry):
 
     if rx < -deadzone:
         return 'turn left'
-
+    
     elif rx > deadzone:
         return 'turn right'
-
+    
     elif y < -deadzone:
         return 'forward'
-
+    
     elif y > deadzone:
         return 'backward'
-
+    
     elif (abs(x) < deadzone) and (abs(y) < deadzone) and (abs(rx) < deadzone) and (abs(ry) < deadzone):
-        return 'stop'
-
-    return 'stop'
+        return ''
+    
+    return ''
 
 
 def connect_controller():
-    print("Connecting to Controller")
+    gamepad = InputDevice('/dev/input/event3')
+    print(gamepad)
+    crawler = Picrawler()
     speed = 80
-    aBTN = 304
-    bBTN = 305
-    xBTN = 307
-    yBTN = 308
-    selectBTN = 314
-    startBTN = 315
+
+    aBTN   = 589825
+    bBTN   = 589826
+    xBTN   = 589827
+    yBTN   = 589828
+    selectBTN = 589831
+    startBTN  = 589832
+
     x, y, rx, ry = 0, 0, 0, 0
-    current_direction = 'stop'
+    current_direction = ''
+    last_msc_code = None
     gamepad.grab()
 
-    while True:
-        event = gamepad.read_one()
-        while event:
-            if event.type == ecodes.EV_KEY:
-                if event.value == 1:
-                    if event.code == aBTN:
-                        current_direction = 'backward'
-
-                    elif event.code == yBTN:
-                        current_direction = 'forward'
-
-                    elif event.code == bBTN:
-                        current_direction = 'turn right'
-
-                    elif event.code == xBTN:
-                        current_direction = 'turn left'
-
-                    elif event.code == selectBTN:
-                        current_direction = 'sit'
-
-                    elif event.code == startBTN:
-                        current_direction = 'stand'
-
-                elif event.value == 0:
-                    current_direction = 'stop'
-
-            elif event.type == ecodes.EV_ABS:
-
-                if event.code == ecodes.ABS_X:
-                    x = normalize_direction(event.value)
-
-                elif event.code == ecodes.ABS_Y:
-                    y = normalize_direction(event.value)
-
-                elif event.code == ecodes.ABS_RX:
-                    rx = normalize_direction(event.value)
-
-                elif event.code == ecodes.ABS_RY:
-                    ry = normalize_direction(event.value)
-
-                new_direction = joystick_movements(x, y, rx, ry)
-                current_direction = new_direction
-
+    try:
+        while True:
             event = gamepad.read_one()
 
-        if current_direction != 'stop':
-            if current_direction == 'sit':
+            while event:
+                if event.type == ecodes.EV_MSC:
+                    last_msc_code = event.value
+
+                    if event.value == aBTN:
+                        current_direction = 'backward'
+
+                    elif event.value == yBTN:
+                        current_direction = 'forward'
+
+                    elif event.value == bBTN:
+                        current_direction = 'turn right'
+
+                    elif event.value == xBTN:
+                        current_direction = 'turn left'
+
+                    elif event.value == selectBTN:
+                        current_direction = 'sit'
+
+                    elif event.value == startBTN:
+                        current_direction = 'stand'
+
+                elif event.type == ecodes.EV_KEY:
+                    if event.value == 0:
+                        current_direction = ''
+
+                elif event.type == ecodes.EV_ABS:
+                    if event.code == ecodes.ABS_X:
+                        x = normalize_direction(event.value)
+
+                    elif event.code == ecodes.ABS_Y:
+                        y = normalize_direction(event.value)
+
+                    elif event.code == ecodes.ABS_RX:
+                        rx = normalize_direction(event.value)
+
+                    elif event.code == ecodes.ABS_RY:
+                        ry = normalize_direction(event.value)
+                        
+                    current_direction = joystick_movements(x, y, rx, ry)
+
+                event = gamepad.read_one()
+
+            if current_direction in ('sit', 'stand'):
                 crawler.do_step(current_direction, 1, speed)
-            elif current_direction == 'stand':
-                crawler.do_step(current_direction, 1, speed)
+            elif current_direction == '':
+                continue
             else:
                 crawler.do_action(current_direction, 1, speed)
 
-        else:
-            crawler.do_action('stop', 1, speed)
+    except KeyboardInterrupt:
+        print("\nBye!")
+        crawler.do_step('sit', 1, 90)
 
 
-try:
+if __name__ == "__main__":
     connect_controller()
-except KeyboardInterrupt:
-    print("\nBye!")
-    crawler.do_step('sit', 1, 90)
