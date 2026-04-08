@@ -22,17 +22,17 @@ def main():
         daemon=True
     )
 
-    # setup controller thread
-    controller_thread = threading.Thread(
-        target=controller.connect_controller,
-        daemon=True
-    )
+    # # setup controller thread
+    # controller_thread = threading.Thread(
+    #     target=controller.connect_controller,
+    #     daemon=True
+    # )
 
 
     # start all threads
     camera_thread.start()
     time.sleep(7)
-    controller_thread.start()
+    # controller_thread.start()
 
 
     try:
