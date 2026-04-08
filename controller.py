@@ -35,7 +35,8 @@ def joystick_movements(x, y, rx, ry):
     return 'stop'
 
 
-def main():
+def connect_controller():
+    print("Connecting to Controller")
     speed = 80
     aBTN = 304
     bBTN = 305
@@ -105,7 +106,7 @@ def main():
 
 
 try:
-    main()
+    connect_controller()
 except KeyboardInterrupt:
     print("\nBye!")
     crawler.do_step('sit', 1, 90)
