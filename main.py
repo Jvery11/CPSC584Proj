@@ -8,7 +8,7 @@ import time
 import connectCamera
 
 # update as needed 
-SERVER_IP = "172.17.10.203"
+SERVER_IP = "172.17.10.219"
 PORT = 5005
 
 def main():
