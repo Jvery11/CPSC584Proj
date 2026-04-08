@@ -7,10 +7,10 @@ import cv2
 # In Main                                                      #
 ################################################################
 
-def start_camera(SERVER_IP, PORT):
+def start_camera():
     print("Connecting to Camera")
-    # SERVER_IP = "172.17.10.219" 
-    # PORT = 5005
+    SERVER_IP = "172.17.10.219" 
+    PORT = 5005
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # USB Camera is named 1, not 0
     camera = cv2.VideoCapture(0, cv2.CAP_V4L2)
