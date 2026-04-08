@@ -13,7 +13,7 @@ def start_camera():
     PORT = 5005
     client_socket = socket.socket(socket.AF_INET, socket.SOCK_DGRAM)
     # USB Camera is named 1, not 0
-    camera = cv2.VideoCapture(1, cv2.CAP_V4L2)
+    camera = cv2.VideoCapture(0, cv2.CAP_V4L2)
 
     if not camera.isOpened():
         print("Cannot open USB camera")
